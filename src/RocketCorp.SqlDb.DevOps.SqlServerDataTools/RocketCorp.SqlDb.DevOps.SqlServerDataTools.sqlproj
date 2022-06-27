@@ -226,4 +226,7 @@
     <Build Include="Sales\XMLSchemaCollections\StoreSurveySchemaCollection.sql" />
     <Build Include="ExtendedProperties.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="RocketCorp.SqlDb.DevOps.SqlServerDataTools.publish.xml" />
+  </ItemGroup>
 </Project>
