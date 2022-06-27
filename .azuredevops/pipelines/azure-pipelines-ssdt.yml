@@ -30,3 +30,26 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/ssdt/'
         ArtifactName: 'ssdt'
         publishLocation: 'Container'
+
+  - job: BuildInfra
+    displayName: Build and publish infrastructure code
+    pool: 
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: Build infrastructure code
+      inputs:
+        azureSubscription: ${{ parameters.azureServiceConnection }}
+        scriptType: bash
+        scriptLocation: inlineScript
+        workingDirectory: '$(Build.SourcesDirectory)/env'
+        inlineScript: |
+          az bicep build --file main.bicep
+
+    - task: PublishPipelineArtifact@1
+      displayName: Publish Infrastructure
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/env'
+        artifact: 'env'
+        publishLocation: 'pipeline'
+    
