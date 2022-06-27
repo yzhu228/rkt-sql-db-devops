@@ -39,7 +39,7 @@ stages:
     - task: AzureCLI@2
       displayName: Build infrastructure code
       inputs:
-        azureSubscription: ${{ parameters.azureServiceConnection }}
+        azureSubscription: 'zure-connect'
         scriptType: bash
         scriptLocation: inlineScript
         workingDirectory: '$(Build.SourcesDirectory)/env'
