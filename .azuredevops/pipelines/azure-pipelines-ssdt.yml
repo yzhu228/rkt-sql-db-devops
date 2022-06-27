@@ -8,5 +8,24 @@ pool:
   vmImage: 'windows-latest'
 
 stages:
-  - stage: Build
-    displayName: Build SQL Database Project
+- stage: Build
+  displayName: Build SQL Database Project
+
+  jobs:
+  - job: BuildSSDT
+    displayName: Build Database project
+    pool: 
+      vmImage: 'windows-latest'
+    steps:
+    - task: MSBuild@1
+      inputs:
+        solution: '**/*.sln'
+        configuration: 'Release'
+        clean: true
+        maximumCpuCount: true
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/bin/Release'
+        ArtifactName: 'sddt'
+        publishLocation: 'Container'
