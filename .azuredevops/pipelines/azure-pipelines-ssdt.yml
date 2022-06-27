@@ -28,5 +28,5 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/ssdt/'
-        ArtifactName: 'sddt'
+        ArtifactName: 'ssdt'
         publishLocation: 'Container'
