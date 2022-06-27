@@ -19,7 +19,7 @@ stages:
     steps:
     - task: MSBuild@1
       inputs:
-        solution: '**/*.sln'
+        solution: '**/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj'
         configuration: 'Release'
         clean: true
         maximumCpuCount: true
