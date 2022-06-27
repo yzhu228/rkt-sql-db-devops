@@ -1,0 +1,12 @@
+trigger:
+    batch: true
+    branches:
+        include:
+            - dev/*
+
+pool:
+    vmImage: 'windows-latest'
+
+stages:
+    - stage: Build
+      displayName: Build SQL Database Project
