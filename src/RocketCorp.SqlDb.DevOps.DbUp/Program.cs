@@ -6,11 +6,11 @@ using System.Reflection;
 // Supports for Local Database
 var connectionString =
         args.FirstOrDefault()
-        ?? "Server=(local)\\SqlExpress; Database=rkt-dbup-db; Trusted_connection=true";
+        ?? "Server=(local)\\SqlExpress; Database=rkt-dbup-devops; Trusted_connection=true";
 
 var upgradeEngineBuilder = DeployChanges.To
                 // Supports Azure Sql Integrated Security
-                .SqlDatabase(connectionString, "dbo", true)
+                .SqlDatabase(connectionString, "dbo")
                 // First, Runs Schema Changes Once
                 .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), x => x.StartsWith("RocketCorp.SqlDb.DevOps.DbUp.Scripts.Schema"), new SqlScriptOptions { ScriptType = ScriptType.RunOnce, RunGroupOrder = 0 })
                 // Followed by Data like Lookup and Mappings

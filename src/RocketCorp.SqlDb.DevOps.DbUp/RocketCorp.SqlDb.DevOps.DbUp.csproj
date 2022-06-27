@@ -10,12 +10,16 @@
 		<PackageReference Include="DbUp" Version="4.5.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Scripts\Data\" />
-		<Folder Include="Scripts\Views\" />
 		<Folder Include="Scripts\StoredProcedures\" />
-		<Folder Include="Scripts\Schema\" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="Scripts\**\*.sql" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Scripts\Data\2206281650-LD-RocketCorp.Departments.sql" />
+	  <None Remove="Scripts\Data\2206281655-LD-RocketCorp.Contacts.sql" />
+	  <None Remove="Scripts\Schema\2021\2206281650-CT-RocketCorp.Departments.sql" />
+	  <None Remove="Scripts\Schema\2021\2206281655-CT-RocketCorp.Contacts.sql" />
+	  <None Remove="Scripts\Views\EmployeeMasterView.sql" />
 	</ItemGroup>
 </Project>
