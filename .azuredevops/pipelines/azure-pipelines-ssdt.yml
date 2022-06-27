@@ -21,11 +21,12 @@ stages:
       inputs:
         solution: '**/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj'
         configuration: 'Release'
+        msbuildArguments: '/p OutputPath=$(Build.ArtifactStagingDirectory)/ssdt/'
         clean: true
         maximumCpuCount: true
 
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/bin/Release'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/ssdt/**/Release'
         ArtifactName: 'sddt'
         publishLocation: 'Container'
