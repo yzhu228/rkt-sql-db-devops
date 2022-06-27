@@ -21,7 +21,7 @@ stages:
       inputs:
         solution: '**/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj'
         configuration: 'Release'
-        msbuildArguments: '/p OutputPath=$(Build.ArtifactStagingDirectory)/ssdt/'
+        msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/ssdt/'
         clean: true
         maximumCpuCount: true
 
