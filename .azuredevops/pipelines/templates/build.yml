@@ -13,7 +13,7 @@ jobs:
       clean: true
       maximumCpuCount: true
 
-  - script: ren .\ssdt\RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac .\ssdt\$(sqlDbName).dacpac
+  - script: ren .\ssdt\RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac $(sqlDbName).dacpac
     workingDirectory: $(Build.ArtifactStagingDirectory)
 
   - task: PublishBuildArtifacts@1
