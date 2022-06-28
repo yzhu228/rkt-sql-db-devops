@@ -36,7 +36,7 @@ jobs:
         inputs:
           command: build
           projects: RocketCorp.SqlDb.DevOps.sln
-          arguments: --configuration Release
+          arguments: --configuration Release /p:NetCoreBuild=true
 
       # Package
       - task: DotNetCoreCLI@2
