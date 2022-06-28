@@ -8,13 +8,13 @@ stages:
 - stage: Build
   displayName: Build SQL Database Project
   variables:
-  - template: 'varaibles/ssdt-generic.yml'
+  - template: 'variables/ssdt-generic.yml'
   jobs:
   - template: templates/build.yml
 
 - stage: DeployDev
   displayName: Deploy to DEV 
   variables:
-  - template: 'varaibles/ssdt-generic.yml'
+  - template: 'variables/ssdt-generic.yml'
   jobs:
   - template: templates/deploy.yml
