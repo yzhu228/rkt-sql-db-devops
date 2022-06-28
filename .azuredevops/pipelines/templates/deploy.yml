@@ -6,7 +6,7 @@ jobs:
 - deployment: Deploy
   displayName: Deploy infrastructure SQL Database
   pool:
-    vmImage: ubuntu-latest
+    vmImage: windows-latest
   variables:
     deploymentName: deploy.sql.database
     resourceGroup: az400-db
