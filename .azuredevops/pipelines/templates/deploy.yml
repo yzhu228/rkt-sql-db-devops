@@ -1,0 +1,68 @@
+parameters:
+- name: environmentName
+  type: string
+- name: azureServiceConnection
+  type: string
+
+jobs:
+- deployment: 'Deploy'
+  displayName: '${{ parameters.environmentName }} Release'
+  pool:
+    vmImage: windows-latest
+  variables:
+    deploymentName: cld-ldz-hsa
+  environment: ${{ parameters.environmentName }}
+  strategy:
+      runOnce:
+        deploy:
+          steps:
+          # Deploy Infrastructure
+          - task: AzureCLI@2
+            displayName: Deploy Infrastructure
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnection }}
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az --version
+                az deployment group create \
+                --resource-group $(azureResourceGroup) \
+                --name $(deploymentName) \
+                --template-file "$(Pipeline.Workspace)/env/main.bicep" \
+                --parameters environmentName=$(environmentShortName) \
+                --parameters defaultSqlOwnerAadGroupName=$(defaultSqlOwnerAadGroupName) \
+                --parameters defaultSqlOwnerAadGroupId=$(defaultSqlOwnerAadGroupId)
+
+          - task: AzureCLI@2
+            displayName: Set varaibles from deployment outputs
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnection }}
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                deploymentOutputs=$(az deployment group show \
+                --resource-group $(azureResourceGroup) \
+                --name cld-ldz-iag-das \
+                --query properties.outputs | jq -c 'to_entries[] | [.key, .value.value]')
+                echo "$deploymentOutputs" | while IFS=$'\n' read -r c; do
+                  outputname=$(echo "$c" | jq -r '.[0]')
+                  outputvalue=$(echo "$c" | jq -r '.[1]')
+                  echo "##vso[task.setvariable variable=$outputname;]$outputvalue"
+                done
+
+          # DbUp Changes
+          - task: ExtractFiles@1
+            displayName: Extract DbUp
+            inputs:
+              archiveFilePatterns: '$(Pipeline.Workspace)/drop/dbup/RocketCorp.SqlDb.DevOps.DbUp.zip'
+              destinationFolder: $(Pipeline.Workspace)/DbUp
+
+          - task: AzureCLI@2
+            displayName: Execute DbUp
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnection }}
+              workingDirectory: $(Pipeline.Workspace)/DbUp
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                dotnet RocketCorp.SqlDb.DevOps.DbUp.dll "Server=tcp:$(sqlServerName),1433; Initial Catalog=$(dpupSqlServerDatabaseName);Encrypt=True;Connection Timeout=30;"

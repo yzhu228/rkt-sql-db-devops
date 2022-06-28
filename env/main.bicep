@@ -1,9 +1,6 @@
 @description('Environment short name.')
 param environmentShortName string
 
-@description('Name of user assigned managed identity.')
-param userAssignedIdentityName string
-
 @description('Default SQL owner AAD group name.')
 param defaultSqlOwnerAadGroupName string
 
@@ -20,6 +17,7 @@ Variables
 */
 
 var appName = 'rkt-db-devops'
+var userAssignedIdentityName = 'mid-${appName}'
 var appUniqueName = '${appName}-${substring(uniqueString(resourceGroup().id), 0, 4)}'
 var sqlServerName = 'sql-svr-${appUniqueName}-${toLower(environmentShortName)}'
 var dpupSqlServerDatabaseName = 'sql-dbup-db'
@@ -37,8 +35,16 @@ External References
 ------------------------------------------------
 */
 
-resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' existing = {
+/*
+------------------------------------------------
+User Assigned Identities
+------------------------------------------------
+*/
+
+resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {    
   name: userAssignedIdentityName
+  location: location
+  tags: resourceTags
 }
 
 /*
@@ -126,3 +132,7 @@ resource ssdtSqlServerDatabase 'Microsoft.Sql/servers/databases@2021-08-01-previ
     catalogCollation: 'SQL_Latin1_General_CP1_CI_AS'
   }
 }
+
+output sqlServerName string = sqlServerName
+output dpupSqlServerDatabaseName string = dpupSqlServerDatabaseName
+output ssdtSqlServerDatabaseName string = ssdtSqlServerDatabaseName

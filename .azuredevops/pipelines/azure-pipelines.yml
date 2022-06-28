@@ -20,3 +20,16 @@ stages:
     displayName: Build
     jobs:
       - template: templates/build.yml
+  
+  - stage: DeployDev
+    dependsOn: Build
+    displayName: CLD-RKT-DEV
+    variables:
+      - template: 'variables/rkt-sql-db-devops-generic.yml'
+        parameters:
+          environmentShortName: dev
+    jobs:
+      - template: templates/deploy.yml
+        parameters:
+          environmentName: CLD-RKT-DEV
+          azureServiceConnection: sc-rkt-ado-arm
