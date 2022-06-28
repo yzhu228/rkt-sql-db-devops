@@ -42,7 +42,7 @@ jobs:
               inlineScript: |
                 deploymentOutputs=$(az deployment group show \
                 --resource-group $(azureResourceGroup) \
-                --name cld-ldz-iag-das \
+                --name $(deploymentName) \
                 --query properties.outputs | jq -c 'to_entries[] | [.key, .value.value]')
                 echo "$deploymentOutputs" | while IFS=$'\n' read -r c; do
                   outputname=$(echo "$c" | jq -r '.[0]')
