@@ -1,0 +1,26 @@
+parameters:
+- name: skipPublish
+  type: boolean
+  default: false
+
+jobs:
+- job: BuildInfrastructure
+  displayName: 'Build CLD-LDZ-HSA Infrastructure'
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  # Validate Bicep
+  - task: PowerShell@2
+    displayName: Validate Infrastructure Bicep
+    inputs:
+      targetType: inline
+      script: 'az bicep build --file main.bicep'
+      workingDirectory: '$(Build.SourcesDirectory)/env'
+
+  # Publish the Infrastructure artifacts.
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Infrastructure
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/env'
+      artifact: 'env'
+      publishLocation: 'pipeline'
