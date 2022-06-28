@@ -34,6 +34,7 @@ jobs:
                 --name $(deploymentName) \
                 --template-file "$(Pipeline.Workspace)/env/main.bicep" \
                 --parameters sqlServerName=$(sqlServerName) \
+                --parameters sqlDbName=$(sqlDbName) \
                 --parameters adminName=$(adminName) \
                 --parameters adminPassword=$(adminPassword)
 
@@ -46,18 +47,4 @@ jobs:
               SqlUsername: $(adminName)
               SqlPassword: $(adminPassword)
               DacpacFile: '$(Pipeline.Workspace)/ssdt/$(sqlDbName).dacpac'
-
-          - task: AzureCLI@2
-            displayName: Deploy SQL Database
-            inputs:
-              azureSubscription: ${{ parameters.azureServiceConnection }}
-              scriptType: bash
-              scriptLocation: inlineScript
-              inlineScript: |
-                az deployment group create \
-                --resource-group az400-db \
-                --name $(deploymentName) \
-                --template-file "$(Pipeline.Workspace)/env/sql-database.bicep" \
-                --parameters sqlServerName=$(sqlServerName) \
-                --parameters sqlDbName=$(sqlDbName)
 

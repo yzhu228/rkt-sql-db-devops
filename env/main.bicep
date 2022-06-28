@@ -1,4 +1,5 @@
 param sqlServerName string
+param sqlDbName string
 param adminName string = 'dbadmin'
 @secure()
 param adminPassword string
@@ -28,5 +29,20 @@ resource sqlFirewall 'Microsoft.Sql/servers/firewallRules@2021-11-01-preview' = 
   properties: {
     endIpAddress: '0.0.0.0'
     startIpAddress: '0.0.0.0'
+  }
+}
+
+resource sqlDb 'Microsoft.Sql/servers/databases@2021-11-01-preview' = {
+  name: sqlDbName
+  parent: sqlServer
+  location: location
+  sku: {
+    name: 'GP_S_Gen5'
+    tier: 'GeneralPurpose'
+    family: 'Gen5'
+    capacity: 2
+  }
+  properties: {
+    maxSizeBytes: 1073741824
   }
 }
