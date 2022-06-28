@@ -133,6 +133,6 @@ resource ssdtSqlServerDatabase 'Microsoft.Sql/servers/databases@2021-08-01-previ
   }
 }
 
-output sqlServerName string = sqlServerName
+output sqlServerFqdn string = '${sqlServerName}${environment().suffixes.sqlServerHostname}'
 output dpupSqlServerDatabaseName string = dpupSqlServerDatabaseName
 output ssdtSqlServerDatabaseName string = ssdtSqlServerDatabaseName

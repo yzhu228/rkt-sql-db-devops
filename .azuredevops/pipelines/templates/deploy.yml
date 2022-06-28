@@ -65,4 +65,4 @@ jobs:
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
-                dotnet RocketCorp.SqlDb.DevOps.DbUp.dll "Server=tcp:$(sqlServerName),1433; Initial Catalog=$(dpupSqlServerDatabaseName);Encrypt=True;Connection Timeout=30;"
+                dotnet RocketCorp.SqlDb.DevOps.DbUp.dll "Server=tcp:$(sqlServerFqdn),1433; Initial Catalog=$(dpupSqlServerDatabaseName);Encrypt=True;Connection Timeout=30;"
