@@ -9,6 +9,7 @@ jobs:
     vmImage: ubuntu-latest
   variables:
     deploymentName: deploy.sql.database
+    resourceGroup: az400-db
   environment: ZURE-DEV
   strategy:
       runOnce:
@@ -16,7 +17,7 @@ jobs:
           steps:
           - task: AzureKeyVault@2
             inputs:
-              azureSubscription: azureServiceConnection
+              azureSubscription: ${{ parameters.azureServiceConnection }}
               keyVaultName: 'kv-az400-db'
               secretsFilter: 'adminPassword'
               runAsPreJob: true
@@ -24,12 +25,12 @@ jobs:
           - task: AzureCLI@2
             displayName: Deploy SQL Server
             inputs:
-              azureSubscription: azureServiceConnection
+              azureSubscription: ${{ parameters.azureServiceConnection }}
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
                 az deployment group create \
-                --resource-group az400-db \
+                --resource-group $(resourceGroup) \
                 --name $(deploymentName) \
                 --template-file "$(Pipeline.Workspace)/env/main.bicep" \
                 --parameters sqlServerName=$(sqlServerName) \
@@ -39,7 +40,7 @@ jobs:
           - task: AzureCLI@2
             displayName: Deploy SQL Database
             inputs:
-              azureSubscription: azureServiceConnection
+              azureSubscription: ${{ parameters.azureServiceConnection }}
               scriptType: bash
               scriptLocation: inlineScript
               inlineScript: |
