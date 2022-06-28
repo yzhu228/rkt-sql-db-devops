@@ -29,7 +29,7 @@ jobs:
                 --resource-group $(azureResourceGroup) \
                 --name $(deploymentName) \
                 --template-file "$(Pipeline.Workspace)/env/main.bicep" \
-                --parameters environmentName=$(environmentShortName) \
+                --parameters environmentShortName=$(environmentShortName) \
                 --parameters defaultSqlOwnerAadGroupName=$(defaultSqlOwnerAadGroupName) \
                 --parameters defaultSqlOwnerAadGroupId=$(defaultSqlOwnerAadGroupId)
 
