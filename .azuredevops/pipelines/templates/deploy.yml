@@ -10,7 +10,7 @@ jobs:
   pool:
     vmImage: windows-latest
   variables:
-    deploymentName: cld-ldz-hsa
+    deploymentName: cld-ldz-rkt-sql-devops
   environment: ${{ parameters.environmentName }}
   strategy:
       runOnce:

@@ -14,3 +14,5 @@ variables:
     defaultSqlOwnerAadGroupId: ''
   ${{ else }}:
     defaultSqlOwnerAadGroupId: 235708ca-8ba6-45c9-905a-37ef3c64c472
+
+  azureResourceGroup: arg-ldz-rkt-sql-devops-$(environmentShortName)
