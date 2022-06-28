@@ -58,7 +58,7 @@ jobs:
               destinationFolder: $(Pipeline.Workspace)/DbUp
 
           - task: AzureCLI@2
-            displayName: Execute DbUp
+            displayName: (DbUp) Update Database
             inputs:
               azureSubscription: ${{ parameters.azureServiceConnection }}
               workingDirectory: $(Pipeline.Workspace)/DbUp
@@ -66,3 +66,12 @@ jobs:
               scriptLocation: inlineScript
               inlineScript: |
                 dotnet RocketCorp.SqlDb.DevOps.DbUp.dll "Server=tcp:$(sqlServerFqdn),1433; Initial Catalog=$(dpupSqlServerDatabaseName);Encrypt=True;Connection Timeout=30;"
+          
+          - task: SqlAzureDacpacDeployment@1
+            displayName: (SSDT) Update Database
+            inputs:
+            azureSubscription: ${{ parameters.azureServiceConnection }}
+            AuthenticationType: servicePrincipal
+            ServerName: $(sqlServerFqdn)
+            DatabaseName: $(dpupSqlServerDatabaseName)
+            DacpacFile: '$(Pipeline.Workspace)/drop/ssdt/RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac'
