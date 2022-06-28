@@ -33,7 +33,7 @@ jobs:
       # Package
       - task: DotNetCoreCLI@2
         condition: and(succeeded(), eq('${{ parameters.skipPublish }}', 'false'))
-        displayName: Package Projects
+        displayName: Package DbUp
         inputs:
           command: publish
           publishWebProjects: false
@@ -42,6 +42,7 @@ jobs:
           arguments: '--output $(Build.ArtifactStagingDirectory)/dbup /p:NetCoreBuild=true'
 
       - task: MSBuild@1
+        displayName: Package SSDT
         inputs:
           solution: '**/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj'
           configuration: 'Release'
