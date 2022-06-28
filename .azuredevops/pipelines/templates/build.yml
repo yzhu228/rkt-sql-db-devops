@@ -13,10 +13,8 @@ jobs:
       clean: true
       maximumCpuCount: true
 
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: mv $(Build.ArtifactStagingDirectory)/ssdt/RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac $(sqlDbName).dacpac
+  - script: ren .\ssdt\RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac .\ssdt\$(sqlDbName).dacpac
+    workingDirectory: $(Build.ArtifactStagingDirectory)
 
   - task: PublishBuildArtifacts@1
     inputs:
