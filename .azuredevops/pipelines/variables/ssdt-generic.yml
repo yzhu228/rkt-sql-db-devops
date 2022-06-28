@@ -1,0 +1,3 @@
+sqlServerName: 'yzlab-datahost1'
+sqlDbName: 'AdventureWorks'
+adminName: 'dbadmin'

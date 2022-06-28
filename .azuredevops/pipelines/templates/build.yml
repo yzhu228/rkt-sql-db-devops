@@ -1,0 +1,43 @@
+
+jobs:
+- job: BuildSSDT
+  displayName: Build Database project
+  pool: 
+    vmImage: 'windows-latest'
+  steps:
+  - task: MSBuild@1
+    inputs:
+      solution: '**/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj'
+      configuration: 'Release'
+      msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/ssdt/'
+      clean: true
+      maximumCpuCount: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/ssdt/'
+      ArtifactName: 'ssdt'
+      publishLocation: 'Container'
+
+- job: BuildInfra
+  displayName: Build and publish infrastructure code
+  pool: 
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: AzureCLI@2
+    displayName: Build infrastructure code
+    inputs:
+      azureSubscription: 'zure-connect'
+      scriptType: bash
+      scriptLocation: inlineScript
+      workingDirectory: '$(Build.SourcesDirectory)/env'
+      inlineScript: |
+        az bicep build --file main.bicep
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Infrastructure
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/env'
+      artifact: 'env'
+      publishLocation: 'pipeline'
+  
