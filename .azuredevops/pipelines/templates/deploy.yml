@@ -9,40 +9,43 @@ jobs:
     vmImage: ubuntu-latest
   variables:
     deploymentName: deploy.sql.database
-  steps:
-  - task: AzureKeyVault@2
-    inputs:
-      azureSubscription: azureServiceConnection
-      keyVaultName: 'kv-az400-db'
-      secretsFilter: 'adminPassword'
-      runAsPreJob: true
+  strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureKeyVault@2
+            inputs:
+              azureSubscription: azureServiceConnection
+              keyVaultName: 'kv-az400-db'
+              secretsFilter: 'adminPassword'
+              runAsPreJob: true
 
-  - task: AzureCLI@2
-    displayName: Deploy SQL Server
-    inputs:
-      azureSubscription: azureServiceConnection
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        az deployment group create \
-        --resource-group az400-db \
-        --name $(deploymentName) \
-        --template-file "$(Pipeline.Workspace)/env/main.bicep" \
-        --parameters sqlServerName=$(sqlServerName) \
-        --parameters adminName=$(adminName) \
-        --parameters adminPassword=$(adminPassword)
+          - task: AzureCLI@2
+            displayName: Deploy SQL Server
+            inputs:
+              azureSubscription: azureServiceConnection
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az deployment group create \
+                --resource-group az400-db \
+                --name $(deploymentName) \
+                --template-file "$(Pipeline.Workspace)/env/main.bicep" \
+                --parameters sqlServerName=$(sqlServerName) \
+                --parameters adminName=$(adminName) \
+                --parameters adminPassword=$(adminPassword)
 
-  - task: AzureCLI@2
-    displayName: Deploy SQL Database
-    inputs:
-      azureSubscription: azureServiceConnection
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        az deployment group create \
-        --resource-group az400-db \
-        --name $(deploymentName) \
-        --template-file "$(Pipeline.Workspace)/env/sql-database.bicep" \
-        --parameters sqlServerName=$(sqlServerName) \
-        --parameters sqlDbName=$(sqlDbName)
+          - task: AzureCLI@2
+            displayName: Deploy SQL Database
+            inputs:
+              azureSubscription: azureServiceConnection
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az deployment group create \
+                --resource-group az400-db \
+                --name $(deploymentName) \
+                --template-file "$(Pipeline.Workspace)/env/sql-database.bicep" \
+                --parameters sqlServerName=$(sqlServerName) \
+                --parameters sqlDbName=$(sqlDbName)
 
