@@ -10,7 +10,7 @@ var connectionString =
 
 var upgradeEngineBuilder = DeployChanges.To
                 // Supports Azure Sql Integrated Security
-                .SqlDatabase(connectionString, "dbo")
+                .SqlDatabase(connectionString, "dbo", true)
                 // First, Runs Schema Changes Once
                 .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), x => x.StartsWith("RocketCorp.SqlDb.DevOps.DbUp.Scripts.Schema"), new SqlScriptOptions { ScriptType = ScriptType.RunOnce, RunGroupOrder = 0 })
                 // Followed by Data like Lookup and Mappings
