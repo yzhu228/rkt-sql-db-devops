@@ -30,14 +30,6 @@ jobs:
     pool:
       vmImage: windows-latest
     steps:
-      # Build
-      - task: DotNetCoreCLI@2
-        displayName: Build Solution
-        inputs:
-          command: build
-          projects: RocketCorp.SqlDb.DevOps.sln
-          arguments: --configuration Release /p:NetCoreBuild=true
-
       # Package
       - task: DotNetCoreCLI@2
         condition: and(succeeded(), eq('${{ parameters.skipPublish }}', 'false'))
@@ -47,8 +39,15 @@ jobs:
           publishWebProjects: false
           projects: |
             **/RocketCorp.SqlDb.DevOps.DbUp.csproj
-            **/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj
           arguments: '--output $(Build.ArtifactStagingDirectory) /p:NetCoreBuild=true'
+
+      - task: MSBuild@1
+        inputs:
+          solution: '**/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj'
+          configuration: 'Release'
+          msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/ssdt/'
+          clean: true
+          maximumCpuCount: true
 
       # Publish
       - task: PublishBuildArtifacts@1
