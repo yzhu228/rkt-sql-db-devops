@@ -45,6 +45,8 @@
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -59,10 +61,28 @@
     <Folder Include="Deployment" />
     <Folder Include="Tables" />
     <Folder Include="Views" />
+    <Folder Include="Schema" />
+    <Folder Include="Deployment\Seed" />
+    <Folder Include="Deployment\Demo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Deployment\Demo\Demo.Contacts.sql" />
+    <None Include="Deployment\Script.PostDeployment1.sql" />
+    <None Include="Deployment\Script.PreDeployment1.sql" />
+    <None Include="Deployment\Seed\Seed.Departments.sql" />
+    <Build Include="Schema\RocketCorp.sql" />
     <Build Include="Tables\Contacts.sql" />
     <Build Include="Tables\Departments.sql" />
     <Build Include="Views\EmployeeMasterView.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Deployment\Script.PreDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Deployment\Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deployment\Seed\Seed.Departments.sql" />
+    <None Include="Deployment\Demo\Demo.Contacts.sql" />
   </ItemGroup>
 </Project>
