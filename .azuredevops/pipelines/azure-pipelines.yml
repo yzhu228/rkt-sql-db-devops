@@ -1,0 +1,22 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+      - releases/*
+  paths:
+    include:
+      - '*'
+    exclude:
+      - '*/.azuredevops/pull_request_template/*'
+      - docs/*
+      - '*/README.md'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:
+      - template: templates/build.yml
