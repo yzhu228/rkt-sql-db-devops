@@ -48,7 +48,7 @@ jobs:
           projects: |
             **/RocketCorp.SqlDb.DevOps.DbUp.csproj
             **/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj
-          arguments: '--output $(Build.ArtifactStagingDirectory)'
+          arguments: '--output $(Build.ArtifactStagingDirectory) /p:NetCoreBuild=true'
 
       # Publish
       - task: PublishBuildArtifacts@1
