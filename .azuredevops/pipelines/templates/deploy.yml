@@ -37,6 +37,16 @@ jobs:
                 --parameters adminName=$(adminName) \
                 --parameters adminPassword=$(adminPassword)
 
+          - task: SqlAzureDacpacDeployment@1
+            displayName: DacpacTask
+            inputs:
+              azureSubscription:  ${{ parameters.azureServiceConnection }}
+              ServerName: '$(sqlServerName).database.windows.net'
+              DatabaseName: $(sqlDbName)
+              SqlUsername: $(adminName)
+              SqlPassword: $(adminPassword)
+              DacpacFile: '$(Pipeline.Workspace)/ssdt/$(sqlDbName).dacpac'
+
           - task: AzureCLI@2
             displayName: Deploy SQL Database
             inputs:
