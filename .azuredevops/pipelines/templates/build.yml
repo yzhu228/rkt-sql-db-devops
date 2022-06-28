@@ -1,26 +1,61 @@
 parameters:
-- name: skipPublish
-  type: boolean
-  default: false
-    
-jobs:
-- job: BuildInfrastructure
-  displayName: 'Build CLD-LDZ-HSA Infrastructure'
-  pool:
-    vmImage: ubuntu-latest
-  steps:
-  # Validate Bicep
-  - task: PowerShell@2
-    displayName: Validate Infrastructure Bicep
-    inputs:
-      targetType: inline
-      script: 'az bicep build --file main.bicep'
-      workingDirectory: '$(Build.SourcesDirectory)/env'
+  - name: skipPublish
+    type: boolean
+    default: false
 
-  # Publish the Infrastructure artifacts.
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Infrastructure
-    inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/env'
-      artifact: 'env'
-      publishLocation: 'pipeline'
+jobs:
+  - job: BuildInfrastructure
+    displayName: 'Build CLD-LDZ-HSA Infrastructure'
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      # Validate Bicep
+      - task: PowerShell@2
+        displayName: Validate Infrastructure Bicep
+        inputs:
+          targetType: inline
+          script: 'az bicep build --file main.bicep'
+          workingDirectory: '$(Build.SourcesDirectory)/env'
+
+      # Publish the Infrastructure artifacts.
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Infrastructure
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/env'
+          artifact: 'env'
+          publishLocation: 'pipeline'
+
+  - job: Build
+    displayName: 'Build CLD-LDZ-HSA'
+    pool:
+      vmImage: windows-latest
+    steps:
+      # Build
+      - task: DotNetCoreCLI@2
+        displayName: Build Housing SA Solution
+        inputs:
+          command: build
+          projects: Programmed.HousingSA.sln
+          arguments: --configuration Release
+
+      # Package
+      - task: DotNetCoreCLI@2
+        condition: and(succeeded(), eq('${{ parameters.skipPublish }}', 'false'))
+        displayName: Package Projects
+        inputs:
+          command: publish
+          publishWebProjects: false
+          projects: |
+            **/Programmed.Hsa.*.DbUp.csproj
+            **/Programmed.Hsa.*.Function.csproj
+          arguments: '--output $(Build.ArtifactStagingDirectory)'
+
+      # Publish
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Artifacts
+        condition: and(succeeded(), eq('${{ parameters.skipPublish }}', 'false'))
+        inputs:
+          pathToPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: drop
+          publishLocation: Container
+          parallel: true
