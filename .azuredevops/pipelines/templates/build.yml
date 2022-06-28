@@ -32,7 +32,6 @@ jobs:
     steps:
       # Package
       - task: DotNetCoreCLI@2
-        condition: and(succeeded(), eq('${{ parameters.skipPublish }}', 'false'))
         displayName: Package DbUp
         inputs:
           command: publish
