@@ -12,6 +12,13 @@ resource sqlServer 'Microsoft.Sql/servers@2021-11-01-preview' = {
     minimalTlsVersion: '1.2'
     administratorLogin: adminName
     administratorLoginPassword: adminPassword
+    administrators: {
+      administratorType: 'ActiveDirectory'
+      principalType: 'Group'
+      login: 'SQLServerAdmins'
+      sid: 'c223cb4d-4d4f-4f35-933f-dd112f0a1ae4'
+      tenantId: 'a8900a0b-29fe-4d22-8251-552c0b6eb399'
+    }
   }
 }
 
