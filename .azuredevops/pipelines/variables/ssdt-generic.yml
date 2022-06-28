@@ -2,3 +2,4 @@ variables:
   sqlServerName: 'yzlab-datahost1'
   sqlDbName: 'AdventureWorks'
   adminName: 'dbadmin'
+  sqlProjectBaseName: 'RocketCorp.SqlDb.DevOps.SqlServerDataTools'

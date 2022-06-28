@@ -7,14 +7,11 @@ jobs:
   steps:
   - task: MSBuild@1
     inputs:
-      solution: '**/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj'
+      solution: '**/src/RocketCorp.SqlDb.DevOps.SqlServerDataTools/$(sqlProjectBaseName).sqlproj'
       configuration: 'Release'
       msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/ssdt/'
       clean: true
       maximumCpuCount: true
-
-  - script: ren .\ssdt\RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac $(sqlDbName).dacpac
-    workingDirectory: $(Build.ArtifactStagingDirectory)
 
   - task: PublishBuildArtifacts@1
     inputs:

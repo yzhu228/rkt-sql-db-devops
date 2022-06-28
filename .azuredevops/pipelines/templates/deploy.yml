@@ -44,7 +44,6 @@ jobs:
               azureSubscription:  ${{ parameters.azureServiceConnection }}
               ServerName: '$(sqlServerName).database.windows.net'
               DatabaseName: $(sqlDbName)
-              SqlUsername: $(adminName)
-              SqlPassword: $(adminPassword)
-              DacpacFile: '$(Pipeline.Workspace)/ssdt/$(sqlDbName).dacpac'
+              authenticationType: servicePrincipal
+              DacpacFile: '$(Pipeline.Workspace)/ssdt/$(sqlProjectBaseName).dacpac'
 
