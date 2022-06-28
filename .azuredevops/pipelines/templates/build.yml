@@ -46,8 +46,8 @@ jobs:
           command: publish
           publishWebProjects: false
           projects: |
-            **/Programmed.Hsa.*.DbUp.csproj
-            **/Programmed.Hsa.*.Function.csproj
+            **/RocketCorp.SqlDb.DevOps.DbUp.csproj
+            **/RocketCorp.SqlDb.DevOps.SqlServerDataTools.sqlproj
           arguments: '--output $(Build.ArtifactStagingDirectory)'
 
       # Publish
