@@ -70,8 +70,8 @@ jobs:
           - task: SqlAzureDacpacDeployment@1
             displayName: (SSDT) Update Database
             inputs:
-            azureSubscription: ${{ parameters.azureServiceConnection }}
-            AuthenticationType: servicePrincipal
-            ServerName: $(sqlServerFqdn)
-            DatabaseName: $(dpupSqlServerDatabaseName)
-            DacpacFile: '$(Pipeline.Workspace)/drop/ssdt/RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac'
+              azureSubscription: ${{ parameters.azureServiceConnection }}
+              AuthenticationType: servicePrincipal
+              ServerName: $(sqlServerFqdn)
+              DatabaseName: $(dpupSqlServerDatabaseName)
+              DacpacFile: '$(Pipeline.Workspace)/drop/ssdt/RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac'
