@@ -39,7 +39,7 @@ jobs:
           publishWebProjects: false
           projects: |
             **/RocketCorp.SqlDb.DevOps.DbUp.csproj
-          arguments: '--output $(Build.ArtifactStagingDirectory) /p:NetCoreBuild=true'
+          arguments: '--output $(Build.ArtifactStagingDirectory)/dbup /p:NetCoreBuild=true'
 
       - task: MSBuild@1
         inputs:
