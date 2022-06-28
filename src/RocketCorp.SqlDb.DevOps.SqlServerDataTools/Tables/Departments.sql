@@ -1,4 +1,4 @@
-﻿CREATE TABLE [RocketCorp].[Departments]
+﻿CREATE TABLE [dbo].[Departments]
 (
 	[Id] INT NOT NULL IDENTITY,
 	[Name] NVARCHAR(255) NOT NULL, 

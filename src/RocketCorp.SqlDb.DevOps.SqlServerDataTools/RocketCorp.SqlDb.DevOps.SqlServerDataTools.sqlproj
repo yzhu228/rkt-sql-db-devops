@@ -1,42 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build">
-  <Sdk Name="Microsoft.Build.Sql" Version="0.1.3-preview" />
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <Name>sample</Name>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
-    <ModelCollation>1033, CI</ModelCollation>
-    <TargetDatabaseSet>True</TargetDatabaseSet>
-    <ProjectGuid>{057f51c6-9d58-43d2-a2b1-6d8b6d5ee5b1}</ProjectGuid>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Properties" />
-    <Folder Include="Scripts\" />
-    <Folder Include="Scripts\RocketCorp\" />
-    <Folder Include="Scripts\RocketCorp\Tables\" />
-    <Folder Include="Scripts\RocketCorp\Views\" />
-    <Folder Include="Scripts\Security\" />
-    <Folder Include="Scripts\Security\Schemas\" />
-    <Folder Include="Deployment\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Scripts\**\*.sql" />
-  </ItemGroup>
-</Project>
-<!--<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0">
-  <Sdk Name="Microsoft.Build.Sql" Version="0.1.3-preview" />
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <TreatTSqlWarningsAsErrors>True</TreatTSqlWarningsAsErrors>
-    <RecoveryMode>Simple</RecoveryMode>
-    <SqlServerVersion>SqlAzure</SqlServerVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Name>RocketCorp.SqlDb.DevOps.SqlServerDataTools</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{057f51c6-9d58-43d2-a2b1-6d8b6d5ee5b1}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <ProjectGuid>{92c090b7-c732-44a4-9661-bcc0c0819824}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -45,13 +16,12 @@
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -78,22 +48,21 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    -->
-<!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
-<!--
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Scripts\" />
-    <Folder Include="Scripts\RocketCorp\" />
-    <Folder Include="Scripts\RocketCorp\Tables\" />
-    <Folder Include="Scripts\RocketCorp\Views\" />
-    <Folder Include="Scripts\Security\" />
-    <Folder Include="Scripts\Security\Schemas\" />
-    <Folder Include="Deployment\" />
+    <Folder Include="Deployment" />
+    <Folder Include="Tables" />
+    <Folder Include="Views" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Scripts\**\*.sql" />
+    <Build Include="Tables\Contacts.sql" />
+    <Build Include="Tables\Departments.sql" />
+    <Build Include="Views\EmployeeMasterView.sql" />
   </ItemGroup>
-</Project>-->
+</Project>
