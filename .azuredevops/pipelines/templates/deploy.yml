@@ -9,6 +9,7 @@ jobs:
     vmImage: ubuntu-latest
   variables:
     deploymentName: deploy.sql.database
+  environment: ZURE-DEV
   strategy:
       runOnce:
         deploy:
