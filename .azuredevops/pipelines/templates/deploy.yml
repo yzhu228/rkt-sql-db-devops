@@ -73,5 +73,5 @@ jobs:
               azureSubscription: ${{ parameters.azureServiceConnection }}
               AuthenticationType: servicePrincipal
               ServerName: $(sqlServerFqdn)
-              DatabaseName: $(dpupSqlServerDatabaseName)
+              DatabaseName: $(ssdtSqlServerDatabaseName)
               DacpacFile: '$(Pipeline.Workspace)/drop/ssdt/RocketCorp.SqlDb.DevOps.SqlServerDataTools.dacpac'
