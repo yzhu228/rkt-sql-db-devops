@@ -1,3 +1,4 @@
-sqlServerName: 'yzlab-datahost1'
-sqlDbName: 'AdventureWorks'
-adminName: 'dbadmin'
+variables:
+  sqlServerName: 'yzlab-datahost1'
+  sqlDbName: 'AdventureWorks'
+  adminName: 'dbadmin'
