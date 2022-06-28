@@ -5,7 +5,7 @@ parameters:
 
 jobs:
   - job: BuildInfrastructure
-    displayName: 'Build CLD-LDZ-HSA Infrastructure'
+    displayName: 'Build Infrastructure'
     pool:
       vmImage: ubuntu-latest
     steps:
@@ -26,16 +26,16 @@ jobs:
           publishLocation: 'pipeline'
 
   - job: Build
-    displayName: 'Build CLD-LDZ-HSA'
+    displayName: 'Build Database'
     pool:
       vmImage: windows-latest
     steps:
       # Build
       - task: DotNetCoreCLI@2
-        displayName: Build Housing SA Solution
+        displayName: Build Solution
         inputs:
           command: build
-          projects: Programmed.HousingSA.sln
+          projects: RocketCorp.SqlDb.DevOps.sln
           arguments: --configuration Release
 
       # Package
