@@ -16,8 +16,8 @@ resource sqlServer 'Microsoft.Sql/servers@2021-11-01-preview' = {
     administrators: {
       administratorType: 'ActiveDirectory'
       principalType: 'Group'
-      login: 'SQLServerAdmins'
-      sid: 'c223cb4d-4d4f-4f35-933f-dd112f0a1ae4'
+      login: 'SQLAdmins'
+      sid: '4f368223-4a62-4003-a865-051b3af89ae9'
       tenantId: 'a8900a0b-29fe-4d22-8251-552c0b6eb399'
       azureADOnlyAuthentication: true
     }
